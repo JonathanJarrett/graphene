@@ -12,13 +12,15 @@ import javax.ws.rs.QueryParam;
 
 import org.apache.tapestry5.annotations.Log;
 /**
- * This generalized rest service will eventually replace most other rest services that have a narrow focus.
+ * This generalized rest service will eventually replace most other rest 
+ * services that have a narrow focus.
  * 
  * Two things that must be done for that to happen:
  * 
- * 1) Powerful query structure to handle the types of views we acutally want to show
+ * 1) Powerful query structure to handle the types of views we actually want to show
  * 
- * 2) Ability to serialize the schema definition and pass it back as part of the response (probably using Avro generated types)
+ * 2) Ability to serialize the schema definition and pass it back as part of 
+ *    the response (probably using Avro generated types)
  * 
  * @author djue
  *

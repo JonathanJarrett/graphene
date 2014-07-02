@@ -25,7 +25,12 @@ public class FastNumberUtils {
 	 * The following custom parser adheres to the same contract as
 	 * FastNumberUtils.parseIntWithCheck( ). Quoting from its javadoc:
 	 * 
-	 * "Parses the string argument as a signed decimal integer. The characters in the string must all be decimal digits, except that the first character may be an ASCII minus sign '-' ('\u002D') to indicate a negative value. The resulting integer value is returned, exactly as if the argument and the radix 10 were given as arguments to the parseInt(java.lang.String, int) method."
+	 * "Parses the string argument as a signed decimal integer. The characters 
+	 * in the string must all be decimal digits, except that the first 
+	 * character may be an ASCII minus sign '-' ('\u002D') to indicate a 
+	 * negative value. The resulting integer value is returned, exactly as if 
+	 * the argument and the radix 10 were given as arguments to the 
+	 * parseInt(java.lang.String, int) method."
 	 * 
 	 * 
 	 * @param s
