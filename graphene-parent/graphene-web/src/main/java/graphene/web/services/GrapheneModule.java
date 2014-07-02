@@ -1,11 +1,8 @@
 package graphene.web.services;
 
 import graphene.dao.DAOModule;
-import graphene.dao.neo4j.DAONeo4JEModule;
-import graphene.dao.sql.DAOSQLModule;
 import graphene.model.idl.G_SymbolConstants;
 import graphene.util.time.JodaTimeUtil;
-import graphene.web.security.AuthenticationFilter;
 import graphene.web.services.javascript.CytoscapeStack;
 import graphene.web.services.javascript.NeoCytoscapeStack;
 
@@ -23,8 +20,6 @@ import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.BeanBlockContribution;
-import org.apache.tapestry5.services.ComponentRequestFilter;
-import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.DisplayBlockContribution;
 import org.apache.tapestry5.services.EditBlockContribution;
 import org.apache.tapestry5.services.LibraryMapping;
@@ -48,8 +43,7 @@ import org.slf4j.Logger;
  * Note that additional modules you want to use should be included in the @SubModules
  * annotation.
  */
-@SubModule({ SecurityModule.class, DAOModule.class, DAOSQLModule.class,
-		DAONeo4JEModule.class })
+@SubModule({  DAOModule.class })
 public class GrapheneModule {
 
 	/**
@@ -81,10 +75,10 @@ public class GrapheneModule {
 		// DevelopmentModule or
 		// QaModule.
 		// configuration.add(G_SymbolConstants.APPLICATION_NAME, "Graphene");
-		// configuration.override(SymbolConstants.APPLICATION_VERSION, "4.0.6");
+		// configuration.override(SymbolConstants.APPLICATION_VERSION, "4.0.8");
 		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
 		configuration.add(G_SymbolConstants.THEME_PATH, "core/");
-		configuration.add(SymbolConstants.PRODUCTION_MODE, true);
+		configuration.add(SymbolConstants.PRODUCTION_MODE, false);
 		configuration.add(G_SymbolConstants.DATABASE_PROPERTIES_LOCATION, "");
 		configuration.add(G_SymbolConstants.GRAPHENE_WEB_CORE_PREFIX,
 				"graphene");
@@ -162,11 +156,7 @@ public class GrapheneModule {
 		// configuration.add("Timing", filter);
 	}
 
-	@Contribute(ComponentRequestHandler.class)
-	public static void contributeComponentRequestHandler(
-			OrderedConfiguration<ComponentRequestFilter> configuration) {
-		configuration.addInstance("RequiresLogin", AuthenticationFilter.class);
-	}
+
 
 	/**
 	 * Tell Tapestry how to coerce Joda Time types to and from Java Date types

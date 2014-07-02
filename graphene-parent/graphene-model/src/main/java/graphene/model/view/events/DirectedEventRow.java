@@ -4,6 +4,8 @@ import graphene.util.DataFormatConstants;
 
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,36 +28,42 @@ import org.slf4j.LoggerFactory;
 public class DirectedEventRow implements Comparable<Object> {
 
 	static Logger logger = LoggerFactory.getLogger(DirectedEventRow.class);
-	public int accountGroup = 0;
-	public String receiverId = "-1"; // XXX: In case the js was looking for
-										// -1 as something special.
-	public String senderId = "-1";
+	private String comments;
+	private String credit;
 
-	public String comments;
+	private Map<String, String> data = new HashMap<String, String>();
 
-	public String credit;
-
-	public String date;
-	public long dateMilliSeconds; // used in plotting
+	private String date;
+	private long dateMilliSeconds; // used in plotting
 	@XmlTransient
 	private int day_one_based;
-	public String debit;
 
-	public long id;
+	private String debit;
 
-	public String localUnitBalance;
+	private long id;
+	private String localUnitBalance;
 
 	@XmlTransient
 	private int month_zero_based;
 
-	public String unit;
+	private String receiverId = "-1"; // XXX: In case the js was looking for
 
-	public String unitBalance;
+	// -1 as something special.
+	private String senderId = "-1";
+
+	private String unit;
+
+	private String unitBalance;
+
 	@XmlTransient
 	private int year;
 
 	public DirectedEventRow() {
-		// TODO Auto-generated constructor stub
+
+	}
+
+	public void addData(final String key, final String value) {
+		data.put(key, value);
 	}
 
 	@Override
@@ -83,16 +91,19 @@ public class DirectedEventRow implements Comparable<Object> {
 		return true;
 	}
 
-	public String getBalanceStr() {
-		return unitBalance;
-	}
-
 	public String getComments() {
 		return comments == null ? "" : comments;
 	}
 
 	public String getCredit() {
 		return credit;
+	}
+
+	/**
+	 * @return the data
+	 */
+	public Map<String, String> getData() {
+		return data;
 	}
 
 	public String getDate() {
@@ -111,6 +122,13 @@ public class DirectedEventRow implements Comparable<Object> {
 		return debit;
 	}
 
+	/**
+	 * @param date the date to set
+	 */
+	public final void setDate(String date) {
+		this.date = date;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -119,24 +137,21 @@ public class DirectedEventRow implements Comparable<Object> {
 		return localUnitBalance;
 	}
 
-	public int getMonth_zero_based() {
-		return month_zero_based;
-	}
 
-	public String getReceiverAccount() {
+
+	/**
+	 * @return the receiverId
+	 */
+	public final String getReceiverId() {
 		return receiverId;
 	}
 
-	public String getReceiverAccountasString() {
-		return new Long(receiverId).toString();
-	}
 
-	public String getSenderAccount() {
+	/**
+	 * @return the senderId
+	 */
+	public final String getSenderId() {
 		return senderId;
-	}
-
-	public String getSenderAccountasString() {
-		return new Long(senderId).toString();
 	}
 
 	public String getUnit() {
@@ -155,14 +170,6 @@ public class DirectedEventRow implements Comparable<Object> {
 		return result;
 	}
 
-	public void setAcnoReceiver(final String account) {
-		this.receiverId = account;
-	}
-
-	public void setAcnoSender(final String account) {
-		this.senderId = account;
-	}
-
 	public void setBalance(final double bal) {
 		unitBalance = new DecimalFormat(DataFormatConstants.MONEY_FORMAT_STRING)
 				.format(bal);
@@ -175,6 +182,14 @@ public class DirectedEventRow implements Comparable<Object> {
 	public void setCredit(final double credit) {
 		this.credit = new DecimalFormat(DataFormatConstants.MONEY_FORMAT_STRING)
 				.format(credit);
+	}
+
+	/**
+	 * @param data
+	 *            the data to set
+	 */
+	public void setData(Map<String, String> data) {
+		this.data = data;
 	}
 
 	public void setDate(final Date date) {
@@ -192,8 +207,8 @@ public class DirectedEventRow implements Comparable<Object> {
 	}
 
 	public void setDebit(final double debit) {
-		this.debit = new DecimalFormat(DataFormatConstants.MONEY_FORMAT_STRING)
-				.format(debit);
+		this.debit = new DecimalFormat(
+				DataFormatConstants.WHOLE_NUMBER_FORMAT_STRING).format(debit);
 	}
 
 	public void setId(final long id) {
@@ -202,11 +217,27 @@ public class DirectedEventRow implements Comparable<Object> {
 
 	public void setLocalUnitBalance(final double bal) {
 		this.localUnitBalance = new DecimalFormat(
-				DataFormatConstants.MONEY_FORMAT_STRING).format(bal);
+				DataFormatConstants.WHOLE_NUMBER_FORMAT_STRING).format(bal);
 	}
 
 	public void setMonth_zero_based(final int month_zero_based) {
 		this.month_zero_based = month_zero_based;
+	}
+
+	/**
+	 * @param receiverId
+	 *            the receiverId to set
+	 */
+	public final void setReceiverId(String receiverId) {
+		this.receiverId = receiverId;
+	}
+
+	/**
+	 * @param senderId
+	 *            the senderId to set
+	 */
+	public final void setSenderId(String senderId) {
+		this.senderId = senderId;
 	}
 
 	public void setUnit(final String unit) {
@@ -217,15 +248,15 @@ public class DirectedEventRow implements Comparable<Object> {
 		this.year = year;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "DirectedEventRow [accountGroup="
-				+ accountGroup
-				+ ", "
-				+ (receiverId != null ? "receiverId=" + receiverId + ", " : "")
-				+ (senderId != null ? "senderId=" + senderId + ", " : "")
+		return "DirectedEventRow ["
 				+ (comments != null ? "comments=" + comments + ", " : "")
 				+ (credit != null ? "credit=" + credit + ", " : "")
+				+ (data != null ? "data=" + data + ", " : "")
 				+ (date != null ? "date=" + date + ", " : "")
 				+ "dateMilliSeconds="
 				+ dateMilliSeconds
@@ -241,6 +272,8 @@ public class DirectedEventRow implements Comparable<Object> {
 				+ "month_zero_based="
 				+ month_zero_based
 				+ ", "
+				+ (receiverId != null ? "receiverId=" + receiverId + ", " : "")
+				+ (senderId != null ? "senderId=" + senderId + ", " : "")
 				+ (unit != null ? "unit=" + unit + ", " : "")
 				+ (unitBalance != null ? "unitBalance=" + unitBalance + ", "
 						: "") + "year=" + year + "]";

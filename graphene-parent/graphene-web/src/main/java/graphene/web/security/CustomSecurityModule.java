@@ -1,7 +1,6 @@
-package graphene.web.services;
+package graphene.web.security;
 
 import graphene.model.idl.G_Workspace;
-import graphene.web.security.AuthenticationFilter;
 
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
@@ -15,9 +14,9 @@ import org.apache.tapestry5.services.ComponentRequestFilter;
 import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.validator.ValidatorMacro;
 
-public class SecurityModule {
+public class CustomSecurityModule {
 	public static void bind(ServiceBinder binder) {
-		binder.bind(Authenticator.class, BasicAuthenticator.class);
+		binder.bind(AuthenticatorHelper.class, BasicAuthenticator.class);
 	}
 
 	@Contribute(ValidatorMacro.class)
